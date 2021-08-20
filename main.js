@@ -1,5 +1,3 @@
-var roleHarvester = require('role.harvester');
-var roleHauler = require('role.hauler');
 var spawning = require('rooms.spawning');
 var spawningManager = require('spawningManager');
 var bodyGenerator = require('bodyGenerator');
@@ -17,15 +15,20 @@ module.exports.loop = function () {
         }
     }
 
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
-            roleHauler.run(creep);
-        }
-    }
+   let roles = ['harvester', 'hauler', 'upgrader', 'builder']
+
+roles["harvester"] = require("role.harvester")
+roles["hauler"] = require("role.hauler")
+roles["upgrader"] = require("role.upgrader");
+roles["builder"] = require("role.builder")
+
+for (let name in Game.creeps) {
+
+    let creep = Game.creeps[name]
+
+    if (roles[creep.memory.role]) roles[creep.memory.role].run(creep)
     
-    
+}    
      _.forEach(Game.rooms, function(room) {
         
        if(room.controller && room && room.controller.my) {

@@ -2,26 +2,23 @@ module.exports = {
  
     run: function(creep) {
     
-  
-    let droppedE = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-            filter: (s) => s.resourceType == RESOURCE_ENERGY
-        })
-    
     creep.eCheck()
     
+    if(creep.memory.eCheck == false) { 
         
-    if(creep.memory.eCheck == false) {    
-        
-        if(creep.pickup(droppedE) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(droppedE, {visualizePathStyle: {stroke: '#ffaa00'}});
-        }
+        creep.convenientWithdraw();
     }
     else{
-        let structure = creep.room.find(FIND_MY_STRUCTURES, {
-        filter: s => (s.structureType == STRUCTURE_SPAWN && s.store.getUsedCapacity() < s.store.getCapacity()) 
-})
-    
+        const target = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+        filter: s => (s.structureType == STRUCTURE_SPAWN || s.structureType == STRUCTURE_EXTENSION) 
+        && s.store[RESOURCE_ENERGY] < s.store.getCapacity()
+    });
+        
+            if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+ 
+        }
     } 
-}
+    }
 }
 
