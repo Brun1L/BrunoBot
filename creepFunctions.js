@@ -14,16 +14,7 @@ Creep.prototype.eCheck = function() {
 Creep.prototype.convenientWithdraw = function() {
     
     creep = this;
-    
-    let droppedE = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-            filter: s => s.resourceType == RESOURCE_ENERGY && s.amount > creep.store.getFreeCapacity()
-        })
-     
-     if(droppedE) {   
-        if(creep.pickup(droppedE) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(droppedE, {visualizePathStyle: {stroke: '#ffaa00'}});
-                
-            } else {
+ 
             let containers = creep.room.find(FIND_STRUCTURES, {
                 filter: s => s.structureType == STRUCTURE_CONTAINER
             });
@@ -45,6 +36,7 @@ Creep.prototype.convenientWithdraw = function() {
                     continue
         }
             }
+            if(sourceContainer1 || sourceContainer2) {
                 if(sourceContainer1.store.getUsedCapacity() > 0) {
                     if(creep.withdraw(sourceContainer1, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sourceContainer1);
@@ -54,9 +46,20 @@ Creep.prototype.convenientWithdraw = function() {
                         creep.moveTo(sourceContainer2);
                 }
             }
-        }
+        } else {
+        let droppedE = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+            filter: s => s.resourceType == RESOURCE_ENERGY && s.amount > creep.store.getFreeCapacity()
+        })
+     
+     if(droppedE) {   
+        if(creep.pickup(droppedE) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(droppedE, {visualizePathStyle: {stroke: '#ffaa00'}});
+                
+            }
+        }    
+    }
 }
-}
+
 
 Creep.prototype.eContainingEstrucs = function() {
     creep = this;

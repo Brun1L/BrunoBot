@@ -1,8 +1,10 @@
-var spawning = require('rooms.spawning');
+var spawning = require('room.spawning');
 var spawningManager = require('spawningManager');
 var bodyGenerator = require('bodyGenerator');
 var harvestingManager = require('harvestingManager');
 var haulingManager = require('haulingManager');
+var roomStrucs = require('roomStrucs');
+var roadsManager = require('roadsManager');
 require('creepFunctions')
 
 
@@ -15,12 +17,13 @@ module.exports.loop = function () {
         }
     }
 
-   let roles = ['harvester', 'hauler', 'upgrader', 'builder']
+   let roles = ['harvester', 'hauler', 'upgrader', 'builder', 'baseMantainer']
 
 roles["harvester"] = require("role.harvester")
 roles["hauler"] = require("role.hauler")
 roles["upgrader"] = require("role.upgrader");
 roles["builder"] = require("role.builder")
+roles["baseMantainer"] = require("role.baseMantainer")
 
 for (let name in Game.creeps) {
 
@@ -37,9 +40,8 @@ for (let name in Game.creeps) {
            harvestingManager(room);
            haulingManager(room);
            spawningManager(room);
+           roomStrucs(room);
+           roadsManager(room);
        }
-
-   
-});   
-   
+    });   
 }

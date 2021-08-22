@@ -14,6 +14,7 @@ module.exports = {
             if(creep.build(consSite) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(consSite);
             }
+            creep.say("🛠")
 
         }
 
