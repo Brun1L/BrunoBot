@@ -5,6 +5,7 @@ function spawning (room) {
     var u = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     var b = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     var bM = _.filter(Game.creeps, (creep) => creep.memory.role == 'baseMantainer');
+    var uH = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgradingHauler');
     
     if(h1.length < 1) {
         var newName = 'h1' + Game.time;
@@ -26,13 +27,13 @@ function spawning (room) {
             {memory: {role: 'hauler', home: room.name, hauling: false}});  
 
         } else{
-            if(u.length < 2) {
+            if(u.length < 3) {
                 var newName = 'u' + Game.time;
                 console.log('uRequired');
                 Game.spawns['Spawn1'].spawnCreep(global.uBody, newName, 
                 {memory: {role: 'upgrader', home: room.name, hauling: false}}); 
             }
-            if(b.length < 1 && room.memory.consSites > 0) {
+            if(b.length < 2 && room.memory.consSites > 0) {
                 var newName = 'b' + Game.time;
                 console.log('bRequired');
                 Game.spawns['Spawn1'].spawnCreep(global.uBody, newName, 
@@ -43,6 +44,12 @@ function spawning (room) {
                 console.log('bmRequired');
                 Game.spawns['Spawn1'].spawnCreep(global.uBody, newName, 
                 {memory: {role: 'baseMantainer', home: room.name, hauling: false}}); 
+            }
+            if(room.memory.uContainer != undefined && uH.length == 0) {
+                var newName = 'uh' + Game.time;
+                console.log('uhRequired');
+                Game.spawns['Spawn1'].spawnCreep(global.hauBody, newName, 
+                {memory: {role: 'upgradingHauler', home: room.name, hauling: false}}); 
             }
         }
     } 

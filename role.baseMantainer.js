@@ -11,7 +11,7 @@ module.exports = {
         } else {
             let toRepairStrucs = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: s => s.structureType != STRUCTURE_RAMPART 
-                && s.hits < s.hitsMax
+                && s.hits < s.hitsMax / 2
             });
 
             if(creep.repair(toRepairStrucs) == ERR_NOT_IN_RANGE) {

@@ -17,13 +17,14 @@ module.exports.loop = function () {
         }
     }
 
-   let roles = ['harvester', 'hauler', 'upgrader', 'builder', 'baseMantainer']
+   let roles = ['harvester', 'hauler', 'upgrader', 'builder', 'baseMantainer', 'upgradingHauler']
 
 roles["harvester"] = require("role.harvester")
 roles["hauler"] = require("role.hauler")
 roles["upgrader"] = require("role.upgrader");
 roles["builder"] = require("role.builder")
 roles["baseMantainer"] = require("role.baseMantainer")
+roles["upgradingHauler"] = require("role.upgradingHauler")
 
 for (let name in Game.creeps) {
 

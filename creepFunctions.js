@@ -36,19 +36,21 @@ Creep.prototype.convenientWithdraw = function() {
                     continue
         }
             }
-            if(sourceContainer1 || sourceContainer2) {
+            if(sourceContainer1) {
                 if(sourceContainer1.store.getUsedCapacity() > 0) {
                     if(creep.withdraw(sourceContainer1, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sourceContainer1);
                 }
-            } else {
+            }
+        } else if (sourceContainer2){
+                if(sourceContainer2.store.getUsedCapacity() > 0) {
                     if(creep.withdraw(sourceContainer2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sourceContainer2);
+                    }    
                 }
-            }
-        } else {
-        let droppedE = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-            filter: s => s.resourceType == RESOURCE_ENERGY && s.amount > creep.store.getFreeCapacity()
+            } else if(sourceContainer1 == undefined && sourceContainer2 == undefined) {
+                let droppedE = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                    filter: s => s.resourceType == RESOURCE_ENERGY && s.amount > creep.store.getFreeCapacity()
         })
      
      if(droppedE) {   
